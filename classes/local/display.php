@@ -33,10 +33,20 @@ class display {
      *
      * @param area_handler $handler
      * @param int $instanceid
+     * @param bool $editlink Also show a link to the edit page to users who can edit the values (for entities
+     *     without a settings menu where the area plugin can add one); then the box shows even without values.
      * @return string Empty when there is nothing to show.
      */
-    public static function render_values(area_handler $handler, int $instanceid): string {
+    public static function render_values(area_handler $handler, int $instanceid, bool $editlink = false): string {
         global $OUTPUT;
+        $editurl = '';
+        if ($editlink) {
+            $capability = $handler->get_capability(area_handler::CAPABILITY_EDIT);
+            $canedit = has_capability($capability, $handler->get_instance_context($instanceid));
+            if ($canedit && $handler->get_editable_fields($instanceid)) {
+                $editurl = $handler->get_edit_url($instanceid)->out(false);
+            }
+        }
         $fields = [];
         foreach ($handler->get_instance_data($instanceid) as $data) {
             $value = $data->export_value();
@@ -50,13 +60,15 @@ class display {
                 'value' => $value,
             ];
         }
-        if (!$fields) {
+        if (!$fields && $editurl === '') {
             return '';
         }
         return $OUTPUT->render_from_template('local_fieldssuite/values', [
             'component' => $handler->get_component(),
             'area' => $handler->get_area(),
             'fields' => $fields,
+            'hasfields' => !empty($fields),
+            'editurl' => $editurl,
         ]);
     }
 
@@ -68,15 +80,17 @@ class display {
      * @param int $instanceid
      * @param string $anchor CSS selector, inside the main region, of the element the values follow; if it is
      *     missing, the values go to the top of the main region.
+     * @param bool $editlink Also show a link to the edit page (see render_values()).
      */
     public static function add_to_page(
         \core\hook\output\after_standard_main_region_html_generation $hook,
         area_handler $handler,
         int $instanceid,
-        string $anchor = ''
+        string $anchor = '',
+        bool $editlink = false
     ): void {
         global $PAGE;
-        $html = self::render_values($handler, $instanceid);
+        $html = self::render_values($handler, $instanceid, $editlink);
         if ($html === '') {
             return;
         }

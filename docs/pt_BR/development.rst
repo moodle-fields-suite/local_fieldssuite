@@ -19,7 +19,7 @@ Um plugin de área (normalmente ``tool_<entidade>customfields``) precisa de:
 4. ``settings.php`` com uma ``admin_externalpage`` que aponta para ``/local/fieldssuite/manage.php?component=<componente>&area=<área>`` com a permissão de configurar.
 5. Um link de navegação para ``$handler->get_edit_url($instanceid)`` onde a entidade mostra as suas configurações.
 6. Um observador de evento que chama ``$handler->delete_instance($instanceid)`` quando a entidade é excluída.
-7. Opcionalmente, um hook de saída que chama ``local_fieldssuite\local\display::add_to_page()`` na página da entidade.
+7. Opcionalmente, um hook de saída que chama ``local_fieldssuite\local\display::add_to_page()`` na página da entidade. Quando a entidade não tem menu de configurações para o link do passo 5, passe ``$editlink = true``: a caixa passa a mostrar também um link *Edit custom fields* para quem pode editar os valores.
 
 O ``tool_categorycustomfields`` é a implementação de referência.
 

@@ -19,7 +19,7 @@ An area plugin (usually ``tool_<entity>customfields``) needs:
 4. ``settings.php`` with an ``admin_externalpage`` that points to ``/local/fieldssuite/manage.php?component=<component>&area=<area>`` with the configure capability.
 5. A navigation link to ``$handler->get_edit_url($instanceid)`` where the entity shows its settings.
 6. An event observer that calls ``$handler->delete_instance($instanceid)`` when the entity is deleted.
-7. Optionally, an output hook that calls ``local_fieldssuite\local\display::add_to_page()`` on the page of the entity.
+7. Optionally, an output hook that calls ``local_fieldssuite\local\display::add_to_page()`` on the page of the entity. When the entity has no settings menu for the link of step 5, pass ``$editlink = true``: the box then also shows an *Edit custom fields* link to users who can edit the values.
 
 ``tool_categorycustomfields`` is the reference implementation.
 

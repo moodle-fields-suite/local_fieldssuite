@@ -157,4 +157,26 @@ final class area_handler_test extends \advanced_testcase {
         $other = $this->getDataGenerator()->create_category();
         $this->assertSame('', display::render_values($handler, $other->id));
     }
+
+    /**
+     * The edit link shows to users who can edit, even without values, and only when there are fields.
+     */
+    public function test_render_values_edit_link(): void {
+        $this->resetAfterTest();
+        $category = $this->getDataGenerator()->create_category();
+        $handler = fixture_handler::create();
+
+        $this->setAdminUser();
+        $this->assertSame('', display::render_values($handler, $category->id, true));
+
+        $this->create_field('department');
+        $handler = fixture_handler::create();
+        $html = display::render_values($handler, $category->id, true);
+        $this->assertStringContainsString('/local/fieldssuite/edit.php', $html);
+        $this->assertStringContainsString(get_string('editcustomfields', 'local_fieldssuite'), $html);
+        $this->assertSame('', display::render_values($handler, $category->id));
+
+        $this->setUser($this->getDataGenerator()->create_user());
+        $this->assertSame('', display::render_values($handler, $category->id, true));
+    }
 }

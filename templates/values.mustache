@@ -23,11 +23,15 @@
     * component - component of the area
     * area - name of the area
     * fields - list of fields with name, shortname, type and value (HTML formatted by the field type)
+    * hasfields - whether there are fields to show
+    * editurl - URL of the edit page, empty when the link is not shown
 
     Example context (json):
     {
         "component": "tool_categorycustomfields",
         "area": "category",
+        "hasfields": true,
+        "editurl": "https://moodle.example/local/fieldssuite/edit.php?component=tool_categorycustomfields&area=category&id=2",
         "fields": [
             {"name": "Department", "shortname": "department", "type": "text", "value": "Engineering"},
             {"name": "Budget code", "shortname": "budget", "type": "text", "value": "ENG-2026"}
@@ -36,11 +40,16 @@
 }}
 <div class="local-fieldssuite-values card mb-3" data-local-fieldssuite="values" data-component="{{component}}" data-area="{{area}}">
     <div class="card-body">
+        {{#hasfields}}
         <dl class="row mb-0">
             {{#fields}}
             <dt class="col-sm-4 customfield_{{type}} customfield_{{shortname}}">{{name}}</dt>
             <dd class="col-sm-8 customfield_{{type}} customfield_{{shortname}}">{{{value}}}</dd>
             {{/fields}}
         </dl>
+        {{/hasfields}}
+        {{#editurl}}
+        <a class="btn btn-secondary btn-sm{{#hasfields}} mt-3{{/hasfields}}" href="{{editurl}}">{{#str}} editcustomfields, local_fieldssuite {{/str}}</a>
+        {{/editurl}}
     </div>
 </div>
