@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['areasettings'] = 'Area settings';
+$string['editcustomfields'] = 'Edit custom fields';
 $string['editvalues'] = 'Custom fields';
 $string['editvaluesof'] = 'Custom fields: {$a}';
 $string['instancenotfound'] = 'The item does not exist or you cannot see it.';

@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_fieldssuite';
-$plugin->version = 2026103100;
+$plugin->version = 2026110100;
 $plugin->requires = 2024100700;
 $plugin->supported = [405, 503];
-$plugin->release = '1.0.0';
+$plugin->release = '1.1.0';
 $plugin->maturity = MATURITY_BETA;

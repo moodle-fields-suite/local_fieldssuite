@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 - 2026-11-01
+
+### Added
+- `display::render_values()` and `display::add_to_page()` can show an *Edit custom fields* link to users who can edit the values, even when there are no values yet, for entities without a settings menu (competencies, frameworks, badges).
+
 ## 1.0.0 - 2026-10-31
 
 First release, extracted from `tool_categorycustomfields` 1.0.0.
